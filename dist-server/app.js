@@ -14,13 +14,16 @@ var _index = _interopRequireDefault(require("./routes/index"));
 
 var _users = _interopRequireDefault(require("./routes/users"));
 
-var _Schemas = _interopRequireDefault(require("./Schemas"));
+var _Schema = _interopRequireDefault(require("./Schema"));
+
+var _cors = _interopRequireDefault(require("cors"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var app = (0, _express["default"])();
+app.use((0, _cors["default"])());
 app.use('/graphql', (0, _expressGraphql["default"])({
-  schema: _Schemas["default"],
+  schema: _Schema["default"],
   // Enables UI for querying throught the graphql.
   graphiql: true
 }));

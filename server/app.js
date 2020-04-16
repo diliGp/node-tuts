@@ -5,10 +5,12 @@ import logger from 'morgan';
 import graphqlHTTP from 'express-graphql';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
-import schema from './Schemas';
-
+import schema from './Schema';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors())
 
 app.use('/graphql', graphqlHTTP({
     schema,

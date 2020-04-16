@@ -65,9 +65,50 @@ var RootQuery = new _graphql.GraphQLObjectType({
     }
   }
 });
+var Mutations = new _graphql.GraphQLObjectType({
+  name: 'Mutations',
+  fields: {
+    addBook: {
+      type: _entityStructures.BookStructure,
+      args: {
+        name: {
+          type: _graphql.GraphQLString
+        },
+        genre: {
+          type: _graphql.GraphQLString
+        },
+        authorId: {
+          type: _graphql.GraphQLID
+        }
+      },
+      resolve: function resolve(parent, _ref) {
+        var name = _ref.name,
+            genre = _ref.genre,
+            authorId = _ref.authorId;
+
+        _helper.books.sort(function (a, b) {
+          return parseInt(b.id) - parseInt(a.id);
+        });
+
+        var newId = parseInt(_helper.books[0].id) + 1;
+        var newBook = {
+          id: "".concat(newId),
+          name: name,
+          genre: genre,
+          authorId: authorId
+        };
+
+        _helper.books.push(newBook);
+
+        return newBook;
+      }
+    }
+  }
+});
 
 var _default = new _graphql.GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutations
 });
 
 exports["default"] = _default;

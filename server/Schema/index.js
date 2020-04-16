@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList } from 'graphql';
+import { GraphQLObjectType, GraphQLSchema, GraphQLID, GraphQLList, GraphQLString } from 'graphql';
 import _ from 'lodash';
 import { BookStructure, AuthorStructure } from './entity-structures';
 import { authors, books } from './helper';
@@ -46,6 +46,33 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
+const Mutations = new GraphQLObjectType({
+    name: 'Mutations',
+    fields: {
+        addBook: {
+            type: BookStructure,
+            args: {
+                name: { type: GraphQLString },
+                genre: { type: GraphQLString },
+                authorId: { type: GraphQLID }
+            },
+            resolve(parent, { name, genre, authorId }) {
+                books.sort((a, b) => (parseInt(b.id) - parseInt(a.id)));
+                const newId = parseInt(books[0].id) + 1;
+                const newBook = {
+                    id: `${newId}`,
+                    name,
+                    genre,
+                    authorId
+                };
+                books.push(newBook);
+                return newBook
+            }
+        }
+    }
+})
+
 export default new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutations
 });
