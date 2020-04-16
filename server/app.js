@@ -5,8 +5,16 @@ import logger from 'morgan';
 import graphqlHTTP from 'express-graphql';
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
+import schema from './Schemas';
+
 
 const app = express();
+
+app.use('/graphql', graphqlHTTP({
+    schema,
+    // Enables UI for querying throught the graphql.
+    graphiql: true
+}));
 
 app.use(logger('dev'));
 app.use(express.json());

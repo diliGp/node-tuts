@@ -14,9 +14,16 @@ var _index = _interopRequireDefault(require("./routes/index"));
 
 var _users = _interopRequireDefault(require("./routes/users"));
 
+var _Schemas = _interopRequireDefault(require("./Schemas"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var app = (0, _express["default"])();
+app.use('/graphql', (0, _expressGraphql["default"])({
+  schema: _Schemas["default"],
+  // Enables UI for querying throught the graphql.
+  graphiql: true
+}));
 app.use((0, _morgan["default"])('dev'));
 app.use(_express["default"].json());
 app.use(_express["default"].urlencoded({
