@@ -3,36 +3,26 @@
 /**
  * Module dependencies.
  */
-"use strict";
-
-var _app = _interopRequireDefault(require("../app"));
-
-var _debug = _interopRequireDefault(require("debug"));
-
-var _http = _interopRequireDefault(require("http"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var debug = (0, _debug["default"])('node-tuts:server');
+import app from '../app';
+import debugLib from 'debug';
+import http from 'http';
+const debug = debugLib('node-tuts:server');
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '7900');
-
-_app["default"].set('port', port);
+const port = normalizePort(process.env.PORT || '7900');
+app.set('port', port);
 /**
  * Create HTTP server.
  */
 
-
-var server = _http["default"].createServer(_app["default"]);
+const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-
-server.listen(port, console.log("Listening on port ".concat(port)));
+server.listen(port, console.log(`Listening on port ${port}`));
 server.on('error', onError);
 server.on('listening', onListening);
 /**
@@ -40,7 +30,7 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -64,7 +54,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port; // handle specific listen errors with friendly messages
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port; // handle specific listen errors with friendly messages
 
   switch (error.code) {
     case 'EACCES':
@@ -87,7 +77,7 @@ function onError(error) {
 
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
